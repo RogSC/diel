@@ -25,7 +25,8 @@
             </button>
 
             <div class="filter__section filter__section-reset">
-                <a href="<?=$APPLICATION->GetCurPage()?>" style="display: inline-block;text-decoration: none" class="filter__reset" type="reset">Сбросить фильтр</a>
+                <a href="<?= $APPLICATION->GetCurPage() ?>" style="display: inline-block;text-decoration: none"
+                   class="filter__reset" type="reset">Сбросить фильтр</a>
             </div>
             <? foreach ($arResult["ITEMS"] as $k => $arFilterItem) {
                 if ($arFilterItem['VALUES']) { ?>
@@ -38,14 +39,20 @@
                                     <?
                                     foreach ($arFilterItem['VALUES'] as $code => $value) { ?>
                                         <input type="text"
-                                               data-<?= mb_strtolower($code) ?>="<?= $value['VALUE'] ?>"
+                                               data-<?= mb_strtolower($code) ?>="<?= round($value['VALUE']) ?>"
                                                name="<?= $value['CONTROL_NAME'] ?>"
-                                               class="filter__price-<?= strtolower($code) ?> js-init-filter"
+                                               class="filter__price-<?= strtolower($code) ?> js-init-filter filter__price-input"
                                                id="<?= $value['CONTROL_ID'] ?>"
-                                               value="<?= $value['HTML_VALUE'] ?: $value['VALUE'] ?>">
+                                               value="<?= $value['HTML_VALUE'] ? round($value['HTML_VALUE']) : round($value['VALUE']) ?>">
                                         <?= $code == 'MIN' ? '<span>-</span>' : '' ?>
-                                        <?
-                                    } ?>
+                                    <? } ?>
+                                </div>
+                                <div class="filter__price-slider-container">
+                                    <div class="filter__price-slider">
+                                        <div class="filter__price-slider-area"></div>
+                                    </div>
+                                    <div class="filter__price-slider-thumb filter__price-slider-thumb_min"></div>
+                                    <div class="filter__price-slider-thumb filter__price-slider-thumb_max"></div>
                                 </div>
                                 <?
                                 break;
@@ -57,7 +64,8 @@
                                     </button>
                                     <ol class="diel-select__list diel-select-list"></ol>
 
-                                    <select class="filter__diel-js js-init-filter" name="<?= $arParams["FILTER_NAME"] ?>_<?= $arFilterItem["ID"] ?>"
+                                    <select class="filter__diel-js js-init-filter"
+                                            name="<?= $arParams["FILTER_NAME"] ?>_<?= $arFilterItem["ID"] ?>"
                                             id="<?= $arParams["FILTER_NAME"] ?>_<?= $arFilterItem["ID"] ?>" hidden>
                                         <?
                                         $isChecked = false;
@@ -69,7 +77,9 @@
                                                 $isChecked = true;
                                             }
                                         } ?>
-                                        <option class="filter__diel-option-js" <?= !$isChecked ? 'selected' : '' ?> disabled>Не выбрано</option>
+                                        <option class="filter__diel-option-js" <?= !$isChecked ? 'selected' : '' ?>
+                                                disabled>Не выбрано
+                                        </option>
                                     </select>
                                 </div>
                                 <?
@@ -153,9 +163,9 @@
                         success: function (res) {
                             let form = $('.filter-form');
 
-                            let h = '<div class="f-count" style="left:' + form.innerWidth()+ 'px">Найдено ' + res.ELEMENT_COUNT + ' элементов<br><a href="' + res.FILTER_URL + '">Показать</a></div>';
+                            let h = '<div class="f-count" style="left:' + form.innerWidth() + 'px">Найдено ' + res.ELEMENT_COUNT + ' элементов<br><a href="' + res.FILTER_URL + '">Показать</a></div>';
                             form.append(h);
-                          // alert($(this).attr('name'));
+                            // alert($(this).attr('name'));
                         }
                     });
 
@@ -195,15 +205,17 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        top:calc(50% - 50px);
+        top: calc(50% - 50px);
         background: #160d08;
         padding: 4px 8px;
         border: 1px solid #a4664a;
     }
+
     .f-count a {
-        color:#fff;
+        color: #fff;
         transition: 300ms;
     }
+
     .f-count a:hover,
     .f-count a:active,
     .f-count a:focus {

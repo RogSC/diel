@@ -150,6 +150,10 @@ if (isset($_REQUEST['web_form_submit']) && $_REQUEST['web_form_submit'] == 'Y' |
             </form>
         </section>
         <script>
+            $(document).ready(function () {
+                initTextarea(<?= $arResult['arForm']['ID'] ?>);
+            });
+
             $('#form_id_' + <?= $arResult['arForm']['ID'] ?>).off('submit.ajax-form').on('submit.ajax-form', function (e) {
                 $('.popup-error').css('display', 'none').html('');
                 e.preventDefault();
@@ -308,6 +312,10 @@ if (isset($_REQUEST['web_form_submit']) && $_REQUEST['web_form_submit'] == 'Y' |
             <div class="popup-error" style="display: none;"></div>
         </form>
         <script>
+            $(document).ready(function () {
+                initTextarea(<?= $arResult['arForm']['ID'] ?>);
+            });
+
             $('#form_id_' + <?= $arResult['arForm']['ID'] ?>).off('submit.ajax-form').on('submit.ajax-form', function (e) {
                 $('.popup-error').css('display', 'none').html('');
                 e.preventDefault();

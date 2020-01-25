@@ -22,52 +22,6 @@ btnModal.on('click', function (e) {
             }
         },
         afterOpen: function (data, el) {
-
-            initTextarea();
-
-            function initTextarea() {
-                let textarea = document.querySelectorAll(".textarea");
-
-                for (let i = 0; i < textarea.length; i++) {
-                    addDiv(textarea[i]);
-                }
-
-                function addDiv(node) {
-                    let div = document.createElement("div");
-
-                    div.classList.add("textarea-box");
-                    div.setAttribute("contenteditable", "true");
-                    div.innerText = node.placeholder;
-
-                    div.addEventListener("focus", focusDiv);
-                    div.addEventListener("blur", blurDiv);
-
-                    div.addEventListener("input", inputDiv);
-
-                    node.insertAdjacentElement("afterEnd", div);
-                    node.hidden = true;
-
-                    function focusDiv() {
-                        if (div.textContent == node.placeholder) {
-                            div.innerText = "";
-                            div.classList.add("textarea-box--focus");
-                            div.classList.remove("textarea-box--blur");
-                        }
-                    }
-
-                    function blurDiv() {
-                        if (div.textContent.length === 0) {
-                            div.innerText = node.placeholder;
-                            div.classList.add("textarea-box--blur");
-                            div.classList.remove("textarea-box--focus");
-                        }
-                    }
-
-                    function inputDiv() {
-                        node.value = div.innerText;
-                    }
-                }
-            }
         },
         ajax: {
             type: 'GET',
@@ -76,6 +30,8 @@ btnModal.on('click', function (e) {
             success: function (data, el, response) {
 
                 data.body.html(response);
+                initTextarea(formID);
+
                 let priceField = $('#modal_form_product_price');
 
                 if (priceField.length > 0) {
